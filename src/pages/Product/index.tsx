@@ -5,12 +5,12 @@ import React, { useState } from "react";
 import ModalForm from "./modalForm";
 import TableList from "./table";
 
-type Post = {
-  id: number;
-  title: string;
-  userId: number;
-  body: string;
-};
+// type Post = {
+//   id: number;
+//   title: string;
+//   userId: number;
+//   body: string;
+// };
 
 const ProductManager: React.FC = () => {
   const [active, setActive] = useState(false);
