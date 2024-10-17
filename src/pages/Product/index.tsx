@@ -1,9 +1,9 @@
-import React from "react";
-import { Button, Page, DataTable, Spinner } from "@shopify/polaris";
+import { Button, Page, Spinner } from "@shopify/polaris";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 import ModalForm from "./modalForm";
+import TableList from "./table";
 
 type Post = {
   id: number;
@@ -46,11 +46,12 @@ const ProductManager: React.FC = () => {
         {isLoading ? (
           <Spinner accessibilityLabel="Loading posts" size="large" />
         ) : (
-          <DataTable
-            columnContentTypes={["numeric", "text", "text"]}
-            headings={["ID", "Title", "userId", "Content"]}
-            rows={rows}
-          />
+          //   <DataTable
+          //     columnContentTypes={["numeric", "text", "text"]}
+          //     headings={["ID", "Title", "userId", "Content"]}
+          //     rows={rows}
+          //   />
+          <TableList />
         )}
       </Page>
       <ModalForm active={active} setActive={setActive} />

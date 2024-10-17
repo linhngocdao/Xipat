@@ -1,35 +1,52 @@
-import { DropZone, FormLayout, TextField, Thumbnail } from "@shopify/polaris";
-import { useState } from "react";
+import {
+  DropZone,
+  LegacyStack,
+  Thumbnail,
+  Text,
+  FormLayout,
+  TextField,
+} from "@shopify/polaris";
+import { NoteIcon } from "@shopify/polaris-icons";
+import { useState, useCallback } from "react";
 
 const FormLayoutItem = () => {
-  const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-  const [file, setFile] = useState<File | null>(null);
-  console.log(setFile(file));
+  const [files, setFiles] = useState<File[]>([]);
 
-  const fileUpload = !file && (
+  const handleDropZoneDrop = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (_dropFiles: File[], acceptedFiles: File[], _rejectedFiles: File[]) =>
+      setFiles((files) => [...files, ...acceptedFiles]),
+    []
+  );
+
+  const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+  const fileUpload = !files.length && (
     <DropZone.FileUpload actionHint="Accepts .gif, .jpg, and .png" />
   );
-
-  const uploadedFile = file && (
-    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-      <Thumbnail
-        size="small"
-        alt={file.name}
-        source={
-          validImageTypes.includes(file.type)
-            ? window.URL.createObjectURL(file)
-            : "https://cdn.shopify.com/s/files/1/0757/9955/files/New_Post.png"
-        }
-      />
-      <div>
-        {file.name}{" "}
-        <div style={{ fontSize: "0.8em", color: "#637381" }}>
-          {file.size} bytes
-        </div>
-      </div>
-    </div>
+  const uploadedFiles = files.length > 0 && (
+    <LegacyStack vertical>
+      {files.map((file, index) => (
+        <LegacyStack alignment="center" key={index}>
+          <Thumbnail
+            size="small"
+            alt={file.name}
+            source={
+              validImageTypes.includes(file.type)
+                ? window.URL.createObjectURL(file)
+                : NoteIcon
+            }
+          />
+          <div>
+            {file.name}{" "}
+            <Text variant="bodySm" as="p">
+              {file.size} bytes
+            </Text>
+          </div>
+        </LegacyStack>
+      ))}
+    </LegacyStack>
   );
-
   return (
     <div>
       <FormLayout>
@@ -40,14 +57,8 @@ const FormLayoutItem = () => {
           onChange={() => {}}
           autoComplete="off"
         />
-        <DropZone
-          label="Product image"
-          accept="image/*"
-          type="image"
-          onDrop={() => {}}
-          allowMultiple={false}
-        >
-          {uploadedFile}
+        <DropZone onDrop={handleDropZoneDrop} variableHeight label="Image">
+          {uploadedFiles}
           {fileUpload}
         </DropZone>
         <TextField
