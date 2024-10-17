@@ -25,15 +25,15 @@ const ProductManager: React.FC = () => {
   });
   console.log(posts);
 
-  const rows =
-    posts
-      ?.slice(0, 5)
-      .map((post: Post) => [
-        post.id,
-        post.title,
-        post.userId,
-        post.body.slice(0, 50) + "...",
-      ]) || [];
+  //   const rows =
+  //     posts
+  //       ?.slice(0, 5)
+  //       .map((post: Post) => [
+  //         post.id,
+  //         post.title,
+  //         post.userId,
+  //         post.body.slice(0, 50) + "...",
+  //       ]) || [];
 
   return (
     <>
